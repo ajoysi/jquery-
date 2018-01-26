@@ -1,0 +1,63 @@
+/*公用重置样式*/
+body,div,dl,dt,dd,p,a,table,thead,tr,th,td,ul,li,h2,h3,h4,h5{margin:0; padding:0;}
+body{font-size: 14px; font-family: "微软雅黑";}
+h2,h3,h4,h5,input,button{}
+ul,li,dl,dt,dd,a{list-style: none;text-decoration: none;}
+/*首页顶部*/
+body{background-color: #fafafa;}
+.out-home{width: 100%;}
+.header{height:72px;width: 100%;background-color: #C73949;}
+.wrap{width:1270px; margin:0 auto;}
+.header img{width:126px;margin-right:24px;padding-top: 15px;    float: left; }
+.nav_span{display:inline-block;height: 72px;line-height: 72px;font-size:22px;color:#fff ;    float: left;}
+.nav{height: 72px;float: right;margin-right: 50px;}
+.nav_ul{display:inline-block;}
+.nav_ul li{height: 72px; float:left;}
+.nav_ul li a{display: block; height:72px; line-height: 72px; font-size: 16px; padding:0 28px;color:#fff;}
+.top{height: 135px;background-color: #fff;}
+.time{width:340px;height:94px;float: left;border: 2px solid #C73949;margin-top: 20px;}
+.time p:first-child{width: 200px;display: inline-block;}
+.time p:first-child span{display: inline-block;height: 47px;line-height: 47px;width: 180px;text-align: left;padding-left: 20px;}
+.time p:nth-child(2){text-align: center;}
+.weather img{margin:0 40px;}
+.time p:nth-child(2) span{ display: inline-block;color: #fff;font-size: 16px; height: 14px;line-height: 14px; margin-right: 10px; }
+.time p span.day{color:#C73949;font-size: 20px;font-weight: bold;line-height: 70px; }
+.time p span.date{color:#989898;font-size: 14px;}
+.time .weather{width: 140px;height:100%;background-color:#C73949;float: right; }
+.icon{height: 135px;float: right;    margin-right: 35px;}
+.icon li{ float:left;width: 125px;height: 135px;}
+.icon li a img{width: 65px;margin:20px 0 0 28px;}
+.icon li span{display: inline-block;width: 100%;text-align: center;height: 25px;line-height: 25px;font-size: 14px;color: #333;}
+.cp p{height: 60px;line-height: 85px;font-size: 18px;color:#333;border-bottom: 1px solid #E6E6E6;}
+.left{width:750px;    height: 740px;float:left;padding-right: 32px;}.left p{width:750px;position: relative;}
+.left p span,.left p img{position: absolute;}
+.left p img{top:32px;right:2px;cursor: pointer;}
+.left p span{right: 30px;font-size: 15px;cursor: pointer;}
+/*树形导航*/
+.right{width: 415px;float: right;    margin-right: 70px;}
+.menuTree{height: 650px; overflow: hidden;   overflow-y: auto;}
+.menuTree { padding-top:18px;}
+.menuTree div{position: relative;}
+.menuTree .date1{position: absolute;top: 0px;right: 0px;}
+.menuTree div ul{ overflow:hidden; display:none; height:auto;padding-left: 20px;}
+.menuTree span{display:inline-block; height:30px; line-height:30px; padding-left:5px; margin-bottom: 10px; cursor:pointer; }
+.menuTree span:first-child{display: inline-block;    padding-left: 18px;    width: 276px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;}
+.menuTree span:first-child img{position: absolute;top: 10px;left: 0px;}
+.menuTree span:nth-child(2){/*float: right;*/}
+.menuTree span:hover{  color:#cf0404;}
+.menuTree a{ color:#333; text-decoration:none;    display: inline-block;width: 270px;height: 18px;line-height: 23px;
+	overflow: hidden;   text-overflow: ellipsis;white-space: nowrap;}
+.menuTree a:hover{ color:#C73949;}
+.menuTree div ul a,.menuTree div ul .date1,.menuTree div ul .first{color:#C73949;}
+.riqi{float: right;}
+.app  {height: 150px;overflow: hidden;}
+.app ul{margin-bottom: 20px;height: 270px;}
+.app ul li{float: left;}
+.app ul li img{width: 64px;padding:28px 30px 20px 30px; }
+.app ul li span{display: block;width: 120px;text-align: center;color: #333;}
+.bottom{display: none;}
+.bottom{margin-top: 20px;width:750px;height: 126px;position: relative;}
+.bottom img:nth-child(2){position: absolute;top:20px;left: 120px;width: 80px;}

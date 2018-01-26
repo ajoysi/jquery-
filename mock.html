@@ -1,0 +1,46 @@
+<!-- http://www.suchso.com/UIweb/jquery-js-mockJSON-mockjax.html -->
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Title</title>  
+  
+    <script type="text/javascript" src="js/jquery-1.4.2.js"></script>  
+    <script type="text/javascript" src="js/jquery.mockjson.js"></script>  
+    <!--https://github.com/mennovanslooten/mockJSON-->  
+    <script src="//cdn.bootcss.com/jquery-mockjax/1.6.2/jquery.mockjax.min.js"></script>  
+  
+  
+  
+</head>  
+<body>  
+<script type="text/javascript">  
+    $(function () {  
+        $.ajax({  
+            url: 'http://localhost:8080/springmvc0006/WebApi/GetUserData.svc',  
+            type: 'GET',  
+            error: function (xhr) {  
+                alert('無法取得資料!');  
+            },  
+            success: function (response) {  
+                $("div#result").append(response);  
+            }  
+        });  
+    });  
+  
+    var isAjaxMocked = true;  
+    if (isAjaxMocked) {  
+        $.mockjax({  
+            url: 'http://localhost:8080/springmvc0006/WebApi/GetUserData.svc',  
+            status: 200,  
+            responseTime: 750,  
+            responseText: { "user": [{ "id": "1", "name": "david", "birthday": "2001/01/26" }] }  
+        });  
+    }  
+</script>  
+  
+<h1>User Data</h1>  
+<div id="result">  
+</div>  
+</body>  
+</html

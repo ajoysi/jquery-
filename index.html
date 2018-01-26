@@ -1,0 +1,387 @@
+<!DOCTYpE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>恒信汽车信息化平台</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon_03.gif" media="screen">
+    <script src="js/jquery-1.11.1.js" type="text/javascript" ></script>
+    <script src="js/common.js" type="text/javascript" ></script>
+    <script type="text/javascript">
+        /*默认字号调整*/
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if(clientWidth > 1080)
+                    {
+                        clientWidth=1080;
+                        docEl.style.fontSize = 67.5 + 'px';
+                    }
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+                };
+            recalc();
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+
+    </script>
+</head>
+<body>
+<div class="out-home">	
+	<header class="header">
+    <div class="wrap">
+       <a href="http://www.hxqcit.com/" target="_blank"> <img src="images/home-logo.png" alt=""></a>
+        <span href="javascript:;" class="nav_span">恒信汽车信息化平台</span>
+        <nav class="nav">           
+                <ul class="nav_ul">
+                    <li >
+                        <a href="http://www.hxqcit.com/meeting" target="_blank">会议管理</a>
+                    </li>
+                    <li>
+                        <a href="http://10.0.0.161:8080/Hxkq/index" target="_blank">考勤记录</a>
+                    </li>
+                    <li>
+                        <a href="http://4s.mysirui.com/purview/user/toLogin" target="_blank">4s管理平台</a>
+                    </li>
+                  
+                </ul>       
+        </nav>
+    </div>
+    </header>
+    <div class="top">
+    	 <div class="wrap">
+    	    <div class="time" id="time">
+    	    	<p><span class="day"></span>
+    	    	<span class="date"></span></p>
+    	    	<div class="weather">
+    	    		<img src="" alt="" id="weather_img">
+    	    		<p><span class="today_weather"></span><span id="tianqi"></span></p>
+    	    		
+    	    	</div>
+    	    </div>
+    	    <div class="icon">
+    	    	<ul>
+                    <li class="hxxt"><a href="" target="_blank"><img src="images/hx.png" alt=""></a><span class="icon-span"> 集团管理系统</span></li>
+    	    		<li><a href="http://10.0.0.67/" target="_blank" ><img src="images/icon01.png" alt=""></a><span class="icon-span"> 财务NC   </span></li>
+    	    		<li><a href="http://bjerp.hxqcgf.com/" target="_blank"><img src="images/icon02.png" alt=""></a><span class="icon-span"> 备件管理   </span></li>
+    	    		<li><a href="http://yperp.hxqcgf.com/" target="_blank"><img src="images/icon03.png" alt=""></a><span class="icon-span"> 用品采购   </span></li>
+    	    		<li><a href="http://mail.hxqcjt.com/" target="_blank"><img src="images/icon04.png" alt=""></a><span class="icon-span"> 邮件  </span></li>
+    	    		<li><a href="http://10.0.0.171/" target="_blank"><img src="images/icon05.png" alt=""></a><span class="icon-span"> 云盘服务   </span></li>
+    	    	</ul>
+    	    </div>
+        </div>
+    </div>
+    <div class="wrap" style="">
+    	<div class="left cp"><p>新闻公告</p><img src="images/banner.png" alt="">
+            <p>IOS版App下载 <span class="click" onclick="zk()">查看更多</span><img class="click" id="click_img" onclick="zk()" src="images/bt_down.png" alt=""></p>
+    		<div class="app">
+    			<ul id="waterfall"></ul>
+                <div class="bottom">
+                            <img  src="images/banner02.png" alt="">
+                            <img id="imgdt" src="" alt="">
+                </div>  	                  		            
+						<script  type="text/javascript" >													
+                        $.getJSON("json/app.json",  function(data){
+                           // console.log(data);
+                             nJson = eval(data);                
+                             //console.log(nJson.data.app);
+                             for(var i=0;i<nJson.data.app.length;i++){
+                                var n=nJson.data.app[i];
+                                $("#waterfall").append("<li><a href="+n.href+" target='_blank'><img src="+n.imgurl+" alt='' /><span>"+n.name+"</span></a></li>")
+                             }
+                             $("#imgdt").attr("src",nJson.data.qrCode);
+                            
+                         })
+						</script> 
+                       				
+		    					   			
+   		     </div>
+    	</div>    	
+        <div class="list right cp">
+            <p class="right-p">教程/资源</p>
+           <div id="menuTree" class="menuTree"></div>
+        </div>
+    
+</div>	
+
+</body>
+
+<script type="text/javascript">
+$.getJSON("json/file.json",  function(data){
+                  nJson = eval(data);
+                 var json =data.data;
+                 var jt_admin =data.jt_admin.link;
+
+              $(".hxxt a").attr("href",jt_admin);
+/*递归实现获取无级树数据并生成DOM结构*/
+        var str = "";
+        var forTree = function(o){
+    for(var i=0;i<o.length;i++){
+          var urlstr = "";
+         try{
+    if(typeof o[i]["is_dir"] == "undefined"){//判断is_dir是否存在来是否生成二级结构  存在就生成不存在就不生成 动态生成一级  二级内容
+          urlstr = "<div><img src='images/bt_1.png'/><span class='first'><a target='_blank' href="+ o[i]["link"] +">"+ o[i]["name"] +"</a></span> <span class='date1'>"+ o[i]["date"] +"</span><ul>"; 
+         }else{
+         urlstr = "<div><span class='first'>"+ o[i]["name"] +"</span><span class='date1'>"+ o[i]["date"] +"</span><ul>";
+      }
+         str += urlstr;
+    if(o[i]["is_dir"] != null){ //如果二级菜单内容不为空 就生成三级菜单
+         forTree(o[i]["is_dir"]);
+        $(".date1").hide();
+        }
+         str += "</ul></div>";
+         }catch(e){}
+        }
+         return str;
+    }
+        /*添加无级树*/
+        document.getElementById("menuTree").innerHTML = forTree(json);
+        /*树形菜单*/
+        var menuTree = function(){
+         //给有子对象的元素动态加 小图标
+     $("#menuTree ul").each(function(index, element) {
+         var ulContent = $(element).html();
+         var spanContent = $(element).siblings(".first").html();
+         if(ulContent){
+              $(element).siblings(".first").html("<img src='images/bt_close.png'/>" + spanContent) 
+
+         }
+    });
+      $("#menuTree").find("div .first").click(function(){
+         var ul = $(this).siblings("ul");
+         var spanStr = $(this).html();
+         var spanContent = spanStr.substr(31,spanStr.length);
+     if(ul.find("div").html() != null){
+         if(ul.css("display") == "none"){
+            ul.show(300);
+               $(this).html("<img src='images/bt_open.png'/> " + spanContent);
+              // console.log(spanContent);
+         }else{
+              ul.hide(300);
+              $(this).html("<img src='images/bt_close.png'/> " + spanContent);
+         }
+        }
+     })
+         $("#menuTree ul").hide();
+ }()
+ })
+</script>
+
+    <!-- 百度地图开始 -->
+     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=wqBXfIN3HkpM1AHKWujjCdsi "></script>
+    <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js "></script>
+    <script>
+                   var city;
+                   var getLocation = {
+                baidu:function(callback, error){
+                    var geolocation = new BMap.Geolocation();
+                geolocation.getCurrentPosition(function(r){
+                if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                    var data = {
+                    latitude: r.point.lat,
+                    longitude: r.point.lng
+                };
+                    if (typeof callback == "function") {
+                    callback(data);
+                }
+                    }else{
+                    //这个地方是用户拒绝获取地理位置
+                    if (typeof error == "function") {
+                    error();
+                    }
+                    }
+                });
+            },
+                    //将经纬度转换成城市名和街道地址，参见百度地图接口文档：http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-geocoding 
+
+                    BaidiCityname: function (latitude, longitude, callback) {
+                    var point = new BMap.Point(longitude,latitude);
+                    var geoc = new BMap.Geocoder();
+             geoc.getLocation(point, function(rs){
+                        var addComp = rs.addressComponents;
+                        var cityname = addComp.city;
+                                var rdata = {
+                                lat: latitude,
+                                lng: longitude,
+                                city: cityname
+                                };
+                        if (typeof callback == "function") {
+                        callback(rdata);
+                        }
+                });
+
+              },
+
+                    //设置默认城市
+                    setDefaultCity: function (callback) {
+                    alert("获取地理位置失败！");
+                            //默认经纬度
+                            var latitude = "0";
+                            var longitude = "0";
+                            var data = {
+                            lat: latitude,
+                            lng: longitude,
+                            city: "",
+                            pro: "",
+                            area:"",
+                            info:"定位失败"
+                            };
+                    if (typeof callback == "function") {
+                    callback(data);
+                       }
+                    }
+                };
+               
+
+            function mapIt(data) {
+                    //console.log(data);
+                 if(data.city!='武汉'){
+                   // console.log(data.city);
+                $.getJSON("php/city.php", { city: data.city }, function(data){
+                           nJson = eval(data);                
+                //console.log(nJson);
+                var code=nJson.HeWeather6[0].now.cond_code;
+                // console.log(code);
+                $('#tianqi').html(nJson.HeWeather6[0].now.cond_txt);
+                if(code==100){
+                    $('#weather_img').attr('src', 'images/100.png');                    
+                }else if(code ==101){
+                    $('#weather_img').attr('src', 'images/101.png');                    
+                }
+                else if(code ==104){
+                    $('#weather_img').attr('src', 'images/104.png');                    
+                }else if(code ==300){
+                    $('#weather_img').attr('src', 'images/300.png');                    
+                }else if(code ==302){
+                    $('#weather_img').attr('src', 'images/302.png');                    
+                }else if(code ==304){
+                    $('#weather_img').attr('src', 'images/304.png');                    
+                }else if(code ==306){
+                    $('#weather_img').attr('src', 'images/306.png');                    
+                }else if(code ==305){
+                    $('#weather_img').attr('src', 'images/305.png');                    
+                }else if(code ==307){
+                    $('#weather_img').attr('src', 'images/307.png');                    
+                }else if(code ==310){
+                    $('#weather_img').attr('src', 'images/310.png');                    
+                }else if(code ==311){
+                    $('#weather_img').attr('src', 'images/311.png');                    
+                }else if(code ==312){
+                    $('#weather_img').attr('src', 'images/312.png');                    
+                }else if(code ==313){
+                    $('#weather_img').attr('src', 'images/312.png');                    
+                }else if(code ==400){
+                    $('#weather_img').attr('src', 'images/400.png');                    
+                }
+                else if(code ==401){
+                    $('#weather_img').attr('src', 'images/401.png');                    
+                }else if(code ==402){
+                    $('#weather_img').attr('src', 'images/402.png');                    
+                }else if(code ==403){
+                    $('#weather_img').attr('src', 'images/403.png');                    
+                }else if(code ==404){
+                    $('#weather_img').attr('src', 'images/404.png');                    
+                }else if(code ==407){
+                    $('#weather_img').attr('src', 'images/407.png');                    
+                }else if(code ==501){
+                    $('#weather_img').attr('src', 'images/501.png');                    
+                }else if(code ==502){
+                    $('#weather_img').attr('src', 'images/502.png');                    
+                }else if(code ==503){
+                    $('#weather_img').attr('src', 'images/503.png');                    
+                }else if(code ==504){
+                    $('#weather_img').attr('src', 'images/504.png');                    
+                }else if(code ==507){
+                    $('#weather_img').attr('src', 'images/507.png');                    
+                }else if(code ==508){
+                    $('#weather_img').attr('src', 'images/508.png');                    
+                }        
+                })
+            }
+
+        }
+                    //原生浏览器获取经纬度方法
+                 getLocation.baidu(
+                    function (data) {
+                    //data包含经纬度信息
+                 getLocation.BaidiCityname(data.latitude, data.longitude, function (result) {
+                    mapIt(result)
+                    });
+                    },
+                    function () {
+                 getLocation.setDefaultCity(
+                        function (defaultData) {
+                        //设置默认城市
+                        mapIt(defaultData)
+                    });
+             });
+              $.getJSON("php/city.php", { city:'武汉'}, function(data){
+                           nJson = eval(data);                
+                //console.log(nJson);
+                var code=nJson.HeWeather6[0].now.cond_code;
+                 //console.log(nJson.HeWeather6[0].basic.location);
+                 $(".today_weather").html(nJson.HeWeather6[0].basic.location);
+                $('#tianqi').html(nJson.HeWeather6[0].now.cond_txt);
+                if(code==100){
+                    $('#weather_img').attr('src', 'images/100.png');                    
+                }else if(code ==101){
+                    $('#weather_img').attr('src', 'images/101.png');                    
+                }
+                else if(code ==104){
+                    $('#weather_img').attr('src', 'images/104.png');                    
+                }else if(code ==300){
+                    $('#weather_img').attr('src', 'images/300.png');                    
+                }else if(code ==302){
+                    $('#weather_img').attr('src', 'images/302.png');                    
+                }else if(code ==304){
+                    $('#weather_img').attr('src', 'images/304.png');                    
+                }else if(code ==306){
+                    $('#weather_img').attr('src', 'images/306.png');                    
+                }else if(code ==305){
+                    $('#weather_img').attr('src', 'images/305.png');                    
+                }else if(code ==307){
+                    $('#weather_img').attr('src', 'images/307.png');                    
+                }else if(code ==310){
+                    $('#weather_img').attr('src', 'images/310.png');                    
+                }else if(code ==311){
+                    $('#weather_img').attr('src', 'images/311.png');                    
+                }else if(code ==312){
+                    $('#weather_img').attr('src', 'images/312.png');                    
+                }else if(code ==313){
+                    $('#weather_img').attr('src', 'images/312.png');                    
+                }else if(code ==400){
+                    $('#weather_img').attr('src', 'images/400.png');                    
+                }
+                else if(code ==401){
+                    $('#weather_img').attr('src', 'images/401.png');                    
+                }else if(code ==402){
+                    $('#weather_img').attr('src', 'images/402.png');                    
+                }else if(code ==403){
+                    $('#weather_img').attr('src', 'images/403.png');                    
+                }else if(code ==404){
+                    $('#weather_img').attr('src', 'images/404.png');                    
+                }else if(code ==407){
+                    $('#weather_img').attr('src', 'images/407.png');                    
+                }else if(code ==501){
+                    $('#weather_img').attr('src', 'images/501.png');                    
+                }else if(code ==502){
+                    $('#weather_img').attr('src', 'images/502.png');                    
+                }else if(code ==503){
+                    $('#weather_img').attr('src', 'images/503.png');                    
+                }else if(code ==504){
+                    $('#weather_img').attr('src', 'images/504.png');                    
+                }else if(code ==507){
+                    $('#weather_img').attr('src', 'images/507.png');                    
+                }else if(code ==508){
+                    $('#weather_img').attr('src', 'images/508.png');                    
+                }        
+                })
+              // 这么写会造成冗余 在深圳的时候会导致先判断武汉的天气 过3,4秒再处出现深圳天气 有一个执行顺序的原因导致
+                        
+</script> 
+</html>
